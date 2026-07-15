@@ -9,6 +9,15 @@ import traceback
 import threading
 import winreg
 
+# Enable DPI awareness to make sure cursor coordinates and WindowFromPoint are pixel-perfect
+try:
+  ctypes.windll.shcore.SetProcessDpiAwareness(2) # Per-Monitor DPI Aware V2
+except Exception:
+  try:
+    ctypes.windll.user32.SetProcessDPIAware() # Fallback for older Windows
+  except Exception:
+    pass
+
 if getattr(sys, 'frozen', False):
   script_dir = os.path.dirname(sys.executable)
 else:
